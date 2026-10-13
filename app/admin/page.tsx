@@ -96,7 +96,7 @@ export default function AdminPage() {
       setLoginError('');
       toast.success('Welcome back, Super Admin!');
     } else {
-      setLoginError('Invalid password. Default password is: admin123');
+      setLoginError('Invalid password. Please try again.');
     }
   };
 
@@ -327,9 +327,9 @@ export default function AdminPage() {
               <label className="block text-xs font-semibold text-charcoal mb-1">Admin Password</label>
               <input
                 type="password"
-                placeholder="Enter admin password (default: admin123)"
+                placeholder="Enter admin password"
                 value={passwordInput}
-                onChange={e => setPasswordInput(e.target.value)}
+                onChange={(e) => setPasswordInput(e.target.value)}
                 className="w-full px-4 py-3 border border-pink-200 rounded-xl text-sm outline-none focus:border-rose-500 focus:ring-2 focus:ring-rose-200 transition-all"
                 autoFocus
               />
@@ -338,16 +338,13 @@ export default function AdminPage() {
 
             <button
               type="submit"
-              className="w-full py-3 bg-gradient-to-r from-rose-600 to-pink-600 text-white rounded-xl font-bold text-sm hover:from-rose-700 hover:to-pink-700 transition-all shadow-md shadow-rose-200"
+              className="w-full py-3 bg-gradient-to-r from-rose-600 to-pink-600 text-white rounded-xl font-bold text-sm hover:from-rose-700 hover:to-pink-700 transition-all shadow-md"
             >
               Sign In to Admin Panel
             </button>
           </form>
 
           <div className="mt-6 pt-4 border-t border-pink-100 text-center">
-            <p className="text-xs text-gray-400">
-              Hint: Default password is <code className="bg-rose-50 text-rose-700 px-2 py-0.5 rounded">admin123</code>
-            </p>
             <Link href="/" className="inline-block mt-3 text-xs text-rose-600 hover:underline">
               ← Return to Storefront
             </Link>
@@ -356,7 +353,6 @@ export default function AdminPage() {
       </div>
     );
   }
-
   // ── Main Admin Panel ─────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -1043,7 +1039,37 @@ export default function AdminPage() {
                     required
                   />
                 </div>
-
+{/* Security & Admin Password Section */}
+            <div className="pt-4 border-t border-gray-100 space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-charcoal uppercase tracking-wider">Security & Access Control</span>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-charcoal mb-1">New Admin Password</label>
+                  <input
+                    type="password"
+                    placeholder="Enter new password to change"
+                    value={settingsForm.adminPassword || ''}
+                    onChange={(e) => setSettingsForm(prev => ({ ...prev, adminPassword: e.target.value }))}
+                    className="w-full px-3 py-2.5 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-charcoal mb-1">Confirm New Password</label>
+                  <input
+                    type="password"
+                    placeholder="Re-enter new password"
+                    value={settingsForm.confirmAdminPassword || ''}
+                    onChange={(e) => setSettingsForm(prev => ({ ...prev, confirmAdminPassword: e.target.value }))}
+                    className="w-full px-3 py-2.5 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500"
+                  />
+                </div>
+              </div>
+              <p className="text-[11px] text-gray-500">
+                Leave these password fields blank if you do not wish to change your admin password.
+              </p>
+            </div>
                 <div className="pt-4 flex items-center justify-between">
                   <button
                     type="button"
