@@ -1046,25 +1046,25 @@ export default function AdminPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-charcoal mb-1">New Admin Password</label>
-                  <input
-                    type="password"
-                    placeholder="Enter new password to change"
-                    value={settingsForm.adminPassword || ''}
-                    onChange={(e) => setSettingsForm(prev => ({ ...prev, adminPassword: e.target.value }))}
-                    className="w-full px-3 py-2.5 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-charcoal mb-1">Confirm New Password</label>
-                  <input
-                    type="password"
-                    placeholder="Re-enter new password"
-                    value={settingsForm.confirmAdminPassword || ''}
-                    onChange={(e) => setSettingsForm(prev => ({ ...prev, confirmAdminPassword: e.target.value }))}
-                    className="w-full px-3 py-2.5 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500"
-                  />
-                </div>
+  <label className="block text-xs font-semibold text-charcoal mb-1">New Admin Password</label>
+  <input
+    type="password"
+    placeholder="Enter new password to change"
+    value={(settingsForm as any).adminPassword || ''}
+    onChange={(e) => setSettingsForm(prev => ({ ...prev, adminPassword: e.target.value }))}
+    className="w-full px-3 py-2.5 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500"
+  />
+</div>
+<div>
+  <label className="block text-xs font-semibold text-charcoal mb-1">Confirm New Password</label>
+  <input
+    type="password"
+    placeholder="Re-enter new password"
+    value={(settingsForm as any).confirmAdminPassword || ''}
+    onChange={(e) => setSettingsForm(prev => ({ ...prev, confirmAdminPassword: e.target.value }))}
+    className="w-full px-3 py-2.5 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500"
+  />
+</div>
               </div>
               <p className="text-[11px] text-gray-500">
                 Leave these password fields blank if you do not wish to change your admin password.
