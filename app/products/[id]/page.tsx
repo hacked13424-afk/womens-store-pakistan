@@ -187,7 +187,7 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#fffbf7' }}>
       {/* Breadcrumb Navigation */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4">
         <div className="flex items-center gap-2 text-xs text-gray-500">
           <Link href="/" className="hover:text-rose-600 transition-colors">Home</Link>
           <span>/</span>
@@ -201,7 +201,7 @@ export default function ProductDetailPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* ── Left Column: Multi-Image & Video Gallery ─────────────────── */}
           <div className="space-y-4">

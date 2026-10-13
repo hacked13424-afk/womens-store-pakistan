@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Heart, Bell, Search, Menu, X, ChevronDown, Settings } from 'lucide-react';
+import { ShoppingCart, Heart, Bell, Search, Menu, X, ChevronDown } from 'lucide-react';
 import { useCart, useWishlist, useNotifications, useProducts, useCategories, useSiteSettings } from '@/lib/store';
 import { Product } from '@/lib/types';
 
@@ -64,7 +64,7 @@ export default function Header() {
 
       {/* Main Header */}
       <div className="bg-white border-b border-pink-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3">
           <div className="flex items-center gap-3 sm:gap-4 justify-between">
             {/* Mobile menu trigger */}
             <button
@@ -221,15 +221,6 @@ export default function Header() {
                   </span>
                 )}
               </button>
-
-              {/* Admin Panel Direct Link */}
-              <Link
-                href="/admin"
-                className="p-2 text-rose-400 hover:text-rose-700 hover:bg-rose-50 rounded-full transition-colors"
-                title="Super-Admin Panel"
-              >
-                <Settings size={20} />
-              </Link>
             </div>
           </div>
         </div>
@@ -237,7 +228,7 @@ export default function Header() {
 
       {/* Navigation Bar (Daraz-like Structure) */}
       <div className="bg-rose-50/80 border-b border-rose-100 hidden lg:block backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1400px] mx-auto px-6">
           <div className="flex items-center gap-1 justify-between">
             <div className="flex items-center gap-1">
               {/* Categories Dropdown */}
@@ -369,16 +360,6 @@ export default function Header() {
                       </Link>
                     ))}
                   </div>
-                </div>
-
-                <div className="border-t border-pink-100 pt-3">
-                  <Link
-                    href="/admin"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 text-xs font-bold text-rose-600 bg-rose-50 rounded-xl hover:bg-rose-100 transition-colors"
-                  >
-                    <Settings size={16} /> Super-Admin Panel
-                  </Link>
                 </div>
               </div>
 

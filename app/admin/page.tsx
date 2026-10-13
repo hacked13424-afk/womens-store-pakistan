@@ -362,7 +362,7 @@ export default function AdminPage() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Top Admin Navbar */}
       <header className="bg-white border-b border-pink-100 sticky top-0 z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 bg-rose-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-sm">
               W
@@ -404,7 +404,7 @@ export default function AdminPage() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex gap-1 sm:gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 flex gap-1 sm:gap-2 overflow-x-auto pb-1 scrollbar-none">
           {[
             { id: 'overview', label: 'Dashboard', icon: LayoutDashboard },
             { id: 'orders', label: `Orders (${orders.length})`, icon: ShoppingCart },
@@ -433,7 +433,7 @@ export default function AdminPage() {
       </header>
 
       {/* Main Content Body */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
+      <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 py-6">
         {/* ── TAB 1: OVERVIEW DASHBOARD ──────────────────────────────────── */}
         {activeTab === 'overview' && (
           <div className="space-y-6">

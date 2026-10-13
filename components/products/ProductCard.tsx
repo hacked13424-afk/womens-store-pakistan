@@ -51,6 +51,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             src={product.images[0]}
             alt={product.title}
             fill
+            sizes="(max-width: 768px) 50vw, 25vw"
             className={`object-cover transition-transform duration-500 group-hover:scale-110 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}
@@ -87,14 +88,9 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             >
               <Heart size={14} className={inWishlist ? 'fill-current' : ''} />
             </motion.button>
-            <Link href={`/products/${product.id}`}>
-              <motion.div
-                whileTap={{ scale: 0.9 }}
-                className="w-8 h-8 bg-white text-rose-600 rounded-full flex items-center justify-center shadow-md hover:bg-rose-50 transition-colors"
-              >
-                <Eye size={14} />
-              </motion.div>
-            </Link>
+            <div className="w-8 h-8 bg-white text-rose-600 rounded-full flex items-center justify-center shadow-md hover:bg-rose-50 transition-colors">
+              <Eye size={14} />
+            </div>
           </div>
 
           {/* Stock Indicator */}
@@ -112,7 +108,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             {product.title}
           </h3>
 
-          {/* Stars (static for now) */}
+          {/* Stars */}
           <div className="flex items-center gap-1 mb-2">
             {[1,2,3,4,5].map(s => (
               <Star key={s} size={10} className={s <= 4 ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-200'} />

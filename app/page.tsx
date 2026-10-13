@@ -63,11 +63,11 @@ export default function HomePage() {
   const featuredProducts = featured.length > 0 ? featured : products;
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#fffbf7' }}>
+    <div className="min-h-screen overflow-x-hidden" style={{ backgroundColor: '#fffbf7' }}>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[500px]">
+      <section className="relative overflow-hidden bg-gradient-to-br from-rose-50 via-pink-50 to-white w-full">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[450px]">
             {/* Hero Text */}
             <AnimatePresence mode="wait">
               <motion.div
@@ -85,13 +85,13 @@ export default function HomePage() {
                 >
                   {slide.tag}
                 </motion.span>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-charcoal leading-tight mb-2">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-charcoal leading-tight mb-2">
                   {slide.title}
                 </h1>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold gradient-text leading-tight mb-4">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold gradient-text leading-tight mb-4">
                   {slide.highlight}
                 </h1>
-                <p className="text-gray-600 text-base sm:text-lg mb-6 leading-relaxed max-w-lg">
+                <p className="text-gray-600 text-sm sm:text-base mb-6 leading-relaxed max-w-lg">
                   {slide.subtitle}
                 </p>
                 <div className="flex flex-wrap gap-3 mb-8">
@@ -114,12 +114,12 @@ export default function HomePage() {
                   {slide.promoCards.map((card, i) => (
                     <motion.div
                       key={i}
-                      animate={{ y: [0, -8, 0] }}
+                      animate={{ y: [0, -6, 0] }}
                       transition={{ duration: 3, repeat: Infinity, delay: i * 1.5 }}
-                      className="bg-white border border-pink-100 rounded-2xl px-4 py-2 shadow-md"
+                      className="bg-white border border-pink-100 rounded-2xl px-4 py-2 shadow-sm"
                     >
-                      <p className="font-bold text-rose-600 text-sm">{card.label}</p>
-                      <p className="text-xs text-gray-400">{card.sub}</p>
+                      <p className="font-bold text-rose-600 text-xs sm:text-sm">{card.label}</p>
+                      <p className="text-[11px] text-gray-400">{card.sub}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -127,7 +127,7 @@ export default function HomePage() {
             </AnimatePresence>
 
             {/* Hero Image */}
-            <div className="relative order-1 lg:order-2">
+            <div className="relative order-1 lg:order-2 w-full">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentSlide}
@@ -135,7 +135,7 @@ export default function HomePage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.6 }}
-                  className="relative rounded-3xl overflow-hidden shadow-2xl"
+                  className="relative rounded-3xl overflow-hidden shadow-xl w-full"
                   style={{ aspectRatio: '16/10' }}
                 >
                   <Image
@@ -150,11 +150,12 @@ export default function HomePage() {
               </AnimatePresence>
 
               {/* Slide Controls */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
                 {heroSlides.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => { setCurrentSlide(i); setAutoPlay(false); }}
+                    aria-label={`Slide ${i + 1}`}
                     className={`rounded-full transition-all ${
                       i === currentSlide ? 'w-6 h-2 bg-white' : 'w-2 h-2 bg-white/50'
                     }`}
@@ -164,13 +165,15 @@ export default function HomePage() {
 
               <button
                 onClick={() => { setCurrentSlide(prev => (prev - 1 + heroSlides.length) % heroSlides.length); setAutoPlay(false); }}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors"
+                aria-label="Previous slide"
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors z-20"
               >
                 <ChevronLeft size={16} className="text-rose-600" />
               </button>
               <button
                 onClick={() => { setCurrentSlide(prev => (prev + 1) % heroSlides.length); setAutoPlay(false); }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors"
+                aria-label="Next slide"
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-md hover:bg-white transition-colors z-20"
               >
                 <ChevronRight size={16} className="text-rose-600" />
               </button>
@@ -180,9 +183,9 @@ export default function HomePage() {
       </section>
 
       {/* Trust Badges Strip */}
-      <section className="bg-white border-y border-pink-100">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-10">
+      <section className="bg-white border-y border-pink-100 w-full">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-items-center">
             {[
               { icon: Truck, label: 'Fast Nationwide Delivery' },
               { icon: ShieldCheck, label: '100% Quality Checked' },
@@ -191,11 +194,11 @@ export default function HomePage() {
             ].map(({ icon: Icon, label }, i) => (
               <motion.div
                 key={i}
-                whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-2"
+                whileHover={{ scale: 1.03 }}
+                className="flex items-center gap-2 text-center sm:text-left"
               >
-                <Icon size={18} className="text-rose-600" />
-                <span className="text-sm font-medium text-charcoal">{label}</span>
+                <Icon size={18} className="text-rose-600 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-medium text-charcoal">{label}</span>
               </motion.div>
             ))}
           </div>
@@ -203,10 +206,10 @@ export default function HomePage() {
       </section>
 
       {/* Categories Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-charcoal mb-2">Shop by Category</h2>
-          <p className="text-gray-500">Explore our curated collections</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-charcoal mb-2">Shop by Category</h2>
+          <p className="text-xs sm:text-sm text-gray-500">Explore our curated collections</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
           {categories.map((cat, i) => (
@@ -215,12 +218,12 @@ export default function HomePage() {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.07 }}
-              whileHover={{ y: -4, scale: 1.02 }}
+              transition={{ delay: i * 0.05 }}
+              whileHover={{ y: -3, scale: 1.02 }}
             >
               <Link
                 href={`/products?category=${cat.slug}`}
-                className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-pink-50 hover:border-rose-200 hover:shadow-md transition-all text-center group"
+                className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl border border-pink-50 hover:border-rose-200 hover:shadow-md transition-all text-center group h-full"
               >
                 <span className="text-3xl group-hover:scale-110 transition-transform duration-200">{cat.icon}</span>
                 <span className="text-xs font-semibold text-charcoal group-hover:text-rose-600 transition-colors">{cat.name}</span>
@@ -231,43 +234,42 @@ export default function HomePage() {
       </section>
 
       {/* Promo Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-6">
+      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pb-8 w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative bg-gradient-to-r from-rose-600 via-pink-500 to-rose-700 rounded-3xl overflow-hidden p-8 sm:p-12 text-white"
+          className="relative bg-gradient-to-r from-rose-600 via-pink-500 to-rose-700 rounded-3xl overflow-hidden p-6 sm:p-12 text-white shadow-lg"
         >
-          <div className="relative z-10">
-            <span className="text-pink-200 text-sm font-medium tracking-wider">LIMITED TIME OFFER</span>
+          <div className="relative z-10 max-w-xl">
+            <span className="text-pink-100 text-xs sm:text-sm font-semibold tracking-wider bg-white/20 px-3 py-1 rounded-full inline-block mb-3">LIMITED TIME OFFER</span>
             <h3 className="text-2xl sm:text-4xl font-bold mt-1 mb-2">Budget Friendly Luxury</h3>
-            <p className="text-pink-100 mb-5 max-w-lg">
+            <p className="text-pink-100 text-xs sm:text-sm mb-5 leading-relaxed">
               In partnership with verified Markaz suppliers, we bring you top-quality products at unbeatable prices. COD available across Pakistan.
             </p>
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 bg-white text-rose-600 px-6 py-3 rounded-full font-bold text-sm hover:bg-rose-50 transition-colors"
+              className="inline-flex items-center gap-2 bg-white text-rose-600 px-6 py-3 rounded-full font-bold text-xs sm:text-sm hover:bg-rose-50 transition-colors shadow"
             >
               Explore Deals <ArrowRight size={16} />
             </Link>
           </div>
           {/* Decorative circles */}
-          <div className="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full" />
-          <div className="absolute -right-5 -bottom-5 w-32 h-32 bg-white/10 rounded-full" />
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-white/5 rounded-full" />
+          <div className="absolute -right-10 -top-10 w-48 h-48 bg-white/10 rounded-full pointer-events-none" />
+          <div className="absolute -right-5 -bottom-5 w-32 h-32 bg-white/10 rounded-full pointer-events-none" />
         </motion.div>
       </section>
 
       {/* Featured Products */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-        <div className="flex items-center justify-between mb-8">
+      <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
           <div>
-            <h2 className="text-3xl font-bold text-charcoal">Featured Products</h2>
-            <p className="text-gray-500 mt-1">Handpicked for you</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-charcoal">Featured Products</h2>
+            <p className="text-xs sm:text-sm text-gray-500 mt-0.5">Handpicked for you</p>
           </div>
           <Link
             href="/products"
-            className="flex items-center gap-1 text-rose-600 hover:text-rose-700 font-medium text-sm transition-colors"
+            className="flex items-center gap-1 text-rose-600 hover:text-rose-700 font-semibold text-xs sm:text-sm transition-colors"
           >
             View All <ChevronRight size={16} />
           </Link>
@@ -280,17 +282,17 @@ export default function HomePage() {
       </section>
 
       {/* Markaz Partnership Section */}
-      <section className="bg-gradient-to-br from-pink-50 to-rose-50 py-12 mt-8">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="bg-gradient-to-br from-pink-50 to-rose-50 py-12 mt-8 border-t border-pink-100 w-full">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <span className="text-4xl mb-4 block">🤝</span>
+            <span className="text-4xl mb-3 block">🤝</span>
             <h2 className="text-2xl sm:text-3xl font-bold text-charcoal mb-3">Fulfilled via Markaz Partnership</h2>
-            <p className="text-gray-600 leading-relaxed mb-6">
+            <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-6">
               Every order placed on Women&apos;s Store Pakistan is fulfilled in partnership with official Markaz suppliers. This ensures quality control, reliable dispatch tracking, and safe Cash on Delivery across all of Pakistan.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-3">
               {['Quality Verified', 'Tracked Dispatch', 'COD Available', 'Genuine Products'].map((badge, i) => (
-                <span key={i} className="inline-flex items-center gap-1 bg-white border border-rose-200 text-rose-700 text-sm px-4 py-2 rounded-full font-medium">
+                <span key={i} className="inline-flex items-center gap-1.5 bg-white border border-rose-200 text-rose-700 text-xs sm:text-sm px-4 py-2 rounded-full font-medium shadow-sm">
                   <Star size={12} className="fill-rose-400 text-rose-400" /> {badge}
                 </span>
               ))}

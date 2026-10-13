@@ -11,7 +11,7 @@ export default function WishlistPage() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#fffbf7' }}>
       <div className="bg-gradient-to-r from-rose-50 to-pink-50 border-b border-pink-100">
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="max-w-[1400px] mx-auto px-6 py-8">
           <div className="flex items-center gap-3">
             <Heart size={28} className="text-rose-600 fill-rose-600" />
             <h1 className="text-3xl font-bold text-charcoal">My Wishlist</h1>
@@ -21,7 +21,7 @@ export default function WishlistPage() {
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-8">
         {wishlist.length === 0 ? (
           <div className="text-center py-20">
             <Heart size={80} className="text-rose-100 mx-auto mb-4" />

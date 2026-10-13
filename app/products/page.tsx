@@ -60,13 +60,13 @@ function ProductsContent() {
     <div className="min-h-screen" style={{ backgroundColor: '#fffbf7' }}>
       {/* Page Header */}
       <div className="bg-gradient-to-r from-rose-50 to-pink-50 border-b border-pink-100">
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="max-w-[1400px] mx-auto px-6 py-8">
           <h1 className="text-3xl font-bold text-charcoal mb-1">All Products</h1>
           <p className="text-gray-500">Discover our complete collection</p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-6">
         {/* Search & Filter Bar */}
         <div className="flex flex-wrap gap-3 mb-6">
           {/* Search Input */}
