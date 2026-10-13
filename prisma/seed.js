@@ -1,0 +1,123 @@
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+async function main() {
+  console.log('Seeding Neon database with default Women Store Pakistan data...');
+
+  const categories = [
+    { id: 'cat-1', name: 'Makeup', slug: 'makeup', icon: '💄', description: 'Beauty essentials & cosmetics', active: true, order: 1 },
+    { id: 'cat-2', name: 'Artificial Jewelry', slug: 'artificial-jewelry', icon: '💍', description: 'Elegant fashion jewelry', active: true, order: 2 },
+    { id: 'cat-3', name: 'Unstitched Suits', slug: 'unstitched-suits', icon: '🧵', description: 'Premium lawn & fabric suits', active: true, order: 3 },
+    { id: 'cat-4', name: 'Ready to Wear', slug: 'ready-to-wear', icon: '👗', description: 'Stitched & styled outfits', active: true, order: 4 },
+    { id: 'cat-5', name: 'Bags', slug: 'bags', icon: '👜', description: 'Handbags, clutches & totes', active: true, order: 5 },
+    { id: 'cat-6', name: 'Footwear', slug: 'footwear', icon: '👠', description: 'Sandals, heels & flats', active: true, order: 6 },
+  ];
+
+  for (const cat of categories) {
+    await prisma.category.upsert({
+      where: { slug: cat.slug },
+      update: cat,
+      create: cat,
+    });
+  }
+  console.log(`✓ ${categories.length} Categories seeded.`);
+
+  const products = [
+    {
+      id: 'prod-1',
+      title: 'Matte Nude & Rose Lipstick Set (6 Shades)',
+      description: 'Indulge in our luxurious collection of 6 handpicked matte shades ranging from soft nudes to deep roses. Long-lasting formula that stays put all day. Enriched with Vitamin E for moisturized, comfortable wear. Perfect for everyday glamour or special occasions. Each shade is carefully curated for the Pakistani skin tone.',
+      originalPrice: 1800,
+      salePrice: 1200,
+      category: 'Makeup',
+      stock: 45,
+      inStock: true,
+      images: ['/images/product-lipstick.jpg'],
+      featured: true,
+    },
+    {
+      id: 'prod-2',
+      title: 'Royal Kundan Bridal Jewelry Set',
+      description: 'Stun at every celebration with this exquisite Kundan artificial jewelry set. Includes a statement necklace, matching earrings, and maang tikka. Gold-plated with faux emerald stones and pearl drops. Ideal for weddings, mehndi, and formal events. Tarnish-resistant and hypoallergenic.',
+      originalPrice: 4500,
+      salePrice: 2800,
+      category: 'Artificial Jewelry',
+      stock: 18,
+      inStock: true,
+      images: ['/images/product-jewelry.jpg'],
+      featured: true,
+    },
+    {
+      id: 'prod-3',
+      title: 'Embroidered Floral Lawn 3-Piece Suit',
+      description: 'Elevate your wardrobe with this stunning embroidered unstitched lawn suit. Features delicate floral thread embroidery on premium quality fabric. Comes with matching bottom fabric and printed chiffon dupatta with tassel detailing. Lightweight and breathable — perfect for Pakistan\'s climate. Available in pastel pink.',
+      originalPrice: 5500,
+      salePrice: 3800,
+      category: 'Unstitched Suits',
+      stock: 22,
+      inStock: true,
+      images: ['/images/product-suit.jpg'],
+      featured: true,
+    },
+    {
+      id: 'prod-4',
+      title: 'Luxury Velvet Evening Clutch Bag',
+      description: 'Make a statement with this sophisticated deep burgundy velvet clutch. Features an ornate gold-tone clasp, detachable chain strap, and satin interior lining. Spacious enough for your essentials. Perfect for weddings, parties, and formal gatherings. A timeless piece that completes any formal look.',
+      originalPrice: 3200,
+      salePrice: 1999,
+      category: 'Bags',
+      stock: 30,
+      inStock: true,
+      images: ['/images/product-bag.jpg'],
+      featured: true,
+    },
+  ];
+
+  for (const prod of products) {
+    await prisma.product.upsert({
+      where: { id: prod.id },
+      update: prod,
+      create: prod,
+    });
+  }
+  console.log(`✓ ${products.length} Products seeded.`);
+
+  await prisma.siteSettings.upsert({
+    where: { id: 'site-settings' },
+    update: {
+      whatsappNumber: '923001234567',
+      supportEmail: 'support@womensstorepk.com',
+      address: 'Lahore, Punjab, Pakistan',
+      facebookUrl: 'https://facebook.com/womensstorepakistan',
+      instagramUrl: 'https://instagram.com/womensstorepk',
+      tiktokUrl: 'https://tiktok.com/@womensstorepk',
+      businessHours: 'Mon-Sat: 9am - 9pm PKT',
+      supportInfo: 'WhatsApp for fastest response. Orders dispatched within 24-48 hours.',
+      announcementBanner: '🌸 Welcome to Women\'s Store Pakistan | Budget Friendly Luxury | Free Delivery on Orders Above Rs. 2000 🎁',
+    },
+    create: {
+      id: 'site-settings',
+      whatsappNumber: '923001234567',
+      supportEmail: 'support@womensstorepk.com',
+      address: 'Lahore, Punjab, Pakistan',
+      facebookUrl: 'https://facebook.com/womensstorepakistan',
+      instagramUrl: 'https://instagram.com/womensstorepk',
+      tiktokUrl: 'https://tiktok.com/@womensstorepk',
+      businessHours: 'Mon-Sat: 9am - 9pm PKT',
+      supportInfo: 'WhatsApp for fastest response. Orders dispatched within 24-48 hours.',
+      announcementBanner: '🌸 Welcome to Women\'s Store Pakistan | Budget Friendly Luxury | Free Delivery on Orders Above Rs. 2000 🎁',
+    },
+  });
+  console.log('✓ Site settings seeded.');
+
+  console.log('All Neon database tables successfully seeded!');
+}
+
+main()
+  .catch((e) => {
+    console.error('Seeding error:', e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
