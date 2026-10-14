@@ -145,7 +145,7 @@ export default function AdminPage() {
       stock: Number(productForm.stock),
       inStock: productForm.inStock,
       featured: productForm.featured,
-      sizes: productForm.sizes, // <--- Yeh wali line yahan add karni hai
+      sizes: productForm.sizes,
       images: [finalImage, ...(editingProduct.images.slice(1) || [])],
       videoUrl: productForm.videoUrl || undefined,
       updatedAt: now,
@@ -163,6 +163,7 @@ export default function AdminPage() {
         stock: Number(productForm.stock),
         inStock: productForm.inStock,
         featured: productForm.featured,
+        sizes: productForm.sizes,
         images: [finalImage],
         videoUrl: productForm.videoUrl || undefined,
         createdAt: now,
