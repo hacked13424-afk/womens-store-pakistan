@@ -50,7 +50,20 @@ export default function AdminPage() {
   // Product Modal State
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [productForm, setProductForm] = useState({
+  const [productForm, setProductForm] = useState<{
+    title: string;
+    description: string;
+    category: string;
+    originalPrice: number | string;
+    salePrice: number | string;
+    stock: number | string;
+    inStock: boolean;
+    featured: boolean;
+    sizes?: string[];
+    imageUrl: string;
+    videoUrl: string;
+    uploadedImage: string;
+  }>({
     title: '',
     description: '',
     category: 'Makeup',
@@ -59,7 +72,7 @@ export default function AdminPage() {
     stock: 20,
     inStock: true,
     featured: false,
-    sizes: [] as string[],
+    sizes: [],
     imageUrl: '',
     videoUrl: '',
     uploadedImage: '',
