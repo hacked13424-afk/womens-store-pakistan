@@ -1254,7 +1254,7 @@ export default function AdminPage() {
                             onClick={() => {
                               setProductForm(prev => ({
                                 ...prev,
-                                sizes: prev.sizes.filter((_: string, i: number) => i !== index)
+                                sizes: (prev.sizes || []).filter((_: string, i: number) => i !== index)
                               }));
                             }}
                             className="text-rose-400 hover:text-rose-700 ml-1 font-bold"

@@ -10,6 +10,7 @@ export interface Product {
   images: string[];    // URLs or /public paths
   videoUrl?: string;
   featured: boolean;
+  sizes?: string[];
   createdAt: string;
   updatedAt: string;
 }
