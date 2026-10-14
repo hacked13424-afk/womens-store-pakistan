@@ -59,6 +59,7 @@ export default function AdminPage() {
     stock: 20,
     inStock: true,
     featured: false,
+    sizes: [] as string[],
     imageUrl: '',
     videoUrl: '',
     uploadedImage: '',
