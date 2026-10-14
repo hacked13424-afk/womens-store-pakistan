@@ -60,6 +60,7 @@ export default function ProductDetailPage() {
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState<string>('');
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const [orderSuccessId, setOrderSuccessId] = useState<string | null>(null);
@@ -109,7 +110,7 @@ export default function ProductDetailPage() {
       city: 'Pakistan',
       orderMethod: 'whatsapp',
       status: 'pending',
-      notes: `Qty: ${quantity}`,
+      notes: `Qty: ${quantity}${selectedSize ? ` | Size: ${selectedSize}` : ''}`,
     });
 
     const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
@@ -117,6 +118,7 @@ export default function ProductDetailPage() {
       `Assalam o Alaikum! I want to order from *Women's Store Pakistan*:\n\n` +
       `🛍️ *Product:* ${product.title}\n` +
       `🔢 *Quantity:* ${quantity}\n` +
+      `${selectedSize ? `📏 *Size:* ${selectedSize}\n` : ''}` +
       `💰 *Price:* Rs. ${(product.salePrice * quantity).toLocaleString()}\n` +
       `🔗 *Item Link:* ${currentUrl}\n\n` +
       `Please confirm my Cash on Delivery order.`
@@ -373,7 +375,30 @@ export default function ProductDetailPage() {
                 {product.description}
               </p>
             </div>
-
+              {/* Interactive Size Selection Buttons */}
+        {(product as any)?.sizes && (product as any).sizes.length > 0 && (
+          <div className="mb-4">
+            <label className="block text-xs font-bold text-charcoal mb-2">
+              Select Size: {selectedSize && <span className="text-rose-600 font-normal">({selectedSize})</span>}
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {(product as any).sizes.map((size: string, idx: number) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setSelectedSize(selectedSize === size ? '' : size)}
+                  className={`px-4 py-2 text-xs font-bold rounded-xl border transition-all ${
+                    selectedSize === size
+                      ? 'bg-rose-500 text-white border-rose-500 shadow-md scale-105'
+                      : 'bg-white text-charcoal border-pink-200 hover:border-rose-400'
+                  }`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
             {/* Quantity Selector */}
             <div className="flex items-center gap-4">
               <span className="text-xs font-bold text-charcoal">Select Quantity:</span>
@@ -429,7 +454,10 @@ export default function ProductDetailPage() {
               {/* Add to Cart & Wishlist row */}
               <div className="flex gap-2">
                 <button
-                  onClick={() => { addToCart(product); toast.success('Added to cart!'); }}
+                  onClick={() => { 
+  addToCart({ ...product, selectedSize, quantity } as any); 
+  toast.success(selectedSize ? `Added to cart! (Size: ${selectedSize})` : 'Added to cart!'); 
+}}
                   disabled={!product.inStock}
                   className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white border border-rose-300 text-rose-700 hover:bg-rose-100 rounded-xl text-xs font-bold transition-colors disabled:opacity-50"
                 >

@@ -134,20 +134,21 @@ export default function AdminPage() {
     const now = new Date().toISOString();
 
     if (editingProduct) {
-      const updated: Product = {
-        ...editingProduct,
-        title: productForm.title,
-        description: productForm.description,
-        category: productForm.category,
-        originalPrice: Number(productForm.originalPrice),
-        salePrice: Number(productForm.salePrice),
-        stock: Number(productForm.stock),
-        inStock: productForm.inStock,
-        featured: productForm.featured,
-        images: [finalImage, ...(editingProduct.images.slice(1) || [])],
-        videoUrl: productForm.videoUrl || undefined,
-        updatedAt: now,
-      };
+    const updated = {
+      ...editingProduct,
+      title: productForm.title,
+      description: productForm.description,
+      category: productForm.category,
+      originalPrice: Number(productForm.originalPrice),
+      salePrice: Number(productForm.salePrice),
+      stock: Number(productForm.stock),
+      inStock: productForm.inStock,
+      featured: productForm.featured,
+      sizes: productForm.sizes, // <--- Yeh wali line yahan add karni hai
+      images: [finalImage, ...(editingProduct.images.slice(1) || [])],
+      videoUrl: productForm.videoUrl || undefined,
+      updatedAt: now,
+    };
       updateProduct(updated);
       toast.success('Product updated successfully!');
     } else {
@@ -1182,6 +1183,76 @@ export default function AdminPage() {
                     />
                   </div>
                 </div>
+                {/* Manual Size Management Section */}
+                <div>
+                  <label className="block text-xs font-bold text-charcoal mb-1">Available Sizes (Manual Input)</label>
+                  <div className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      id="manualSizeInput"
+                      placeholder="e.g. S, M, L, XL or 7, 8, 9"
+                      className="w-full px-3 py-2 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          const val = (e.target as HTMLInputElement).value.trim();
+                          if (val) {
+                            const currentSizes = productForm.sizes || [];
+                            if (!currentSizes.includes(val)) {
+                              setProductForm(prev => ({ ...prev, sizes: [...currentSizes, val] }));
+                            }
+                            (e.target as HTMLInputElement).value = '';
+                          }
+                        }
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const inputEl = document.getElementById('manualSizeInput') as HTMLInputElement;
+                        const val = inputEl?.value.trim();
+                        if (val) {
+                          const currentSizes = productForm.sizes || [];
+                          if (!currentSizes.includes(val)) {
+                            setProductForm(prev => ({ ...prev, sizes: [...currentSizes, val] }));
+                          }
+                          inputEl.value = '';
+                        }
+                      }}
+                      className="px-4 py-2 bg-rose-500 text-white text-xs font-bold rounded-xl hover:bg-rose-600 transition-colors"
+                    >
+                      Add Size
+                    </button>
+                  </div>
+
+                  {/* Display Added Sizes as Removable Tags */}
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {productForm.sizes && productForm.sizes.length > 0 ? (
+                      productForm.sizes.map((size: string, index: number) => (
+                        <span
+                          key={index}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 bg-pink-50 text-rose-600 border border-pink-200 rounded-lg text-xs font-semibold"
+                        >
+                          {size}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setProductForm(prev => ({
+                                ...prev,
+                                sizes: prev.sizes.filter((_: string, i: number) => i !== index)
+                              }));
+                            }}
+                            className="text-rose-400 hover:text-rose-700 ml-1 font-bold"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-[11px] text-gray-400 italic">No sizes added yet. Type and click Add or press Enter.</span>
+                    )}
+                  </div>
+                </div>
 
                 {/* Dual Media Support (Local Upload + External URL) */}
                 <div className="p-3 bg-rose-50/50 rounded-2xl border border-pink-100 space-y-3">
@@ -1205,7 +1276,7 @@ export default function AdminPage() {
                       2. OR External Image URL
                     </label>
                     <input
-                      type="url"
+                      type="text"
                       value={productForm.imageUrl}
                       onChange={e => setProductForm(prev => ({ ...prev, imageUrl: e.target.value }))}
                       className="w-full px-3 py-1.5 text-xs border border-pink-200 rounded-xl outline-none bg-white"
@@ -1218,7 +1289,7 @@ export default function AdminPage() {
                       Video URL (Optional: YouTube embed or MP4)
                     </label>
                     <input
-                      type="url"
+                      type="text"
                       value={productForm.videoUrl}
                       onChange={e => setProductForm(prev => ({ ...prev, videoUrl: e.target.value }))}
                       className="w-full px-3 py-1.5 text-xs border border-pink-200 rounded-xl outline-none bg-white"
