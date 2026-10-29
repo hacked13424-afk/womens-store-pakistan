@@ -61,6 +61,7 @@ export default function ProductDetailPage() {
   const [showVideoPlayer, setShowVideoPlayer] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedColor, setSelectedColor] = useState<string>('');
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const [orderSuccessId, setOrderSuccessId] = useState<string | null>(null);
@@ -399,6 +400,30 @@ export default function ProductDetailPage() {
             </div>
           </div>
         )}
+        {/* Interactive Color Selection Buttons */}
+{(product as any)?.colors && (product as any).colors.length > 0 && (
+  <div className="mb-4">
+    <label className="block text-xs font-bold text-charcoal mb-2">
+      Select Color: {selectedColor && <span className="text-rose-600 font-normal">({selectedColor})</span>}
+    </label>
+    <div className="flex flex-wrap gap-2">
+      {((product as any).colors).map((color: string, idx: number) => (
+        <button
+          key={idx}
+          type="button"
+          onClick={() => setSelectedColor(selectedColor === color ? '' : color)}
+          className={`px-4 py-2 text-xs font-bold rounded-xl border transition-all ${
+            selectedColor === color
+              ? 'bg-rose-600 text-white border-rose-600 shadow-md scale-105'
+              : 'bg-white text-charcoal border-pink-200 hover:border-rose-400'
+          }`}
+        >
+          {color}
+        </button>
+      ))}
+    </div>
+  </div>
+)}
             {/* Quantity Selector */}
             <div className="flex items-center gap-4">
               <span className="text-xs font-bold text-charcoal">Select Quantity:</span>

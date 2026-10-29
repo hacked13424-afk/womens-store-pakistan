@@ -1268,63 +1268,176 @@ export default function AdminPage() {
                     )}
                   </div>
                 </div>
+                    {/* Manual Color Management Section */}
+<div>
+  <label className="block text-xs font-bold text-charcoal mb-1">Available Colors (Manual Input)</label>
+  <div className="flex gap-2 mb-2">
+    <input
+      type="text"
+      id="manualColorInput"
+      placeholder="e.g. Red, Blue, Pink, Maroon"
+      className="w-full px-3 py-2 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const val = (e.target as HTMLInputElement).value.trim();
+          if (val) {
+            const currentColors = productForm.colors || [];
+            if (!currentColors.includes(val)) {
+              setProductForm(prev => ({ ...prev, colors: [...currentColors, val] }));
+            }
+            (e.target as HTMLInputElement).value = '';
+          }
+        }
+      }}
+    />
+    <button
+      type="button"
+      onClick={() => {
+        const input = document.getElementById('manualColorInput') as HTMLInputElement;
+        const val = input?.value.trim();
+        if (val) {
+          const currentColors = productForm.colors || [];
+          if (!currentColors.includes(val)) {
+            setProductForm(prev => ({ ...prev, colors: [...currentColors, val] }));
+          }
+          input.value = '';
+        }
+      }}
+      className="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-xl hover:bg-rose-700 whitespace-nowrap"
+    >
+      Add Color
+    </button>
+  </div>
+  
+  {/* Added Colors Badges List */}
+  <div className="flex flex-wrap gap-1.5 mb-3">
+    {(productForm.colors || []).map((color: string, idx: number) => (
+      <span key={idx} className="inline-flex items-center gap-1 px-2.5 py-1 bg-pink-50 text-rose-700 text-xs font-semibold rounded-lg border border-pink-200">
+        {color}
+        <button
+          type="button"
+          onClick={() => {
+            setProductForm(prev => ({
+              ...prev,
+              colors: (prev.colors || []).filter((_: any, i: number) => i !== idx)
+            }));
+          }}
+          className="text-rose-400 hover:text-rose-700 font-bold ml-1"
+        >
+          ×
+        </button>
+      </span>
+    ))}
+  </div>
+</div>
+               {/* Multi-Media Gallery & Dual Support */}
+<div className="p-3 bg-rose-50/50 rounded-2xl border border-pink-100 space-y-3">
+  <p className="text-xs font-bold text-rose-800">Product Image Gallery & Media</p>
+  
+  {/* 1. Multiple Local File Upload */}
+  <div>
+    <label className="block text-[11px] font-semibold text-charcoal mb-1">Upload Multiple Images from Device</label>
+    <input
+      type="file"
+      multiple
+      accept="image/*"
+      onChange={(e) => {
+        const files = e.target.files;
+        if (files && files.length > 0) {
+          const newImageUrls: string[] = [];
+          Array.from(files).forEach((file) => {
+            const url = URL.createObjectURL(file);
+            newImageUrls.push(url);
+          });
+          const existingImages = productForm.images || (productForm.image ? [productForm.image] : []);
+          setProductForm(prev => ({
+            ...prev,
+            images: [...existingImages, ...newImageUrls],
+            image: existingImages.length === 0 && newImageUrls.length > 0 ? newImageUrls[0] : prev.image
+          }));
+        }
+      }}
+      className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100"
+    />
+  </div>
 
-                {/* Dual Media Support (Local Upload + External URL) */}
-                <div className="p-3 bg-rose-50/50 rounded-2xl border border-pink-100 space-y-3">
-                  <p className="text-xs font-bold text-rose-800">Media Upload (Dual Support)</p>
+  {/* 2. Add External Image URL */}
+  <div>
+    <label className="block text-[11px] font-semibold text-charcoal mb-1">OR Add External Image URL</label>
+    <div className="flex gap-2">
+      <input
+        type="text"
+        id="externalImageUrlInput"
+        placeholder="https://example.com/photo.jpg"
+        className="w-full px-3 py-2 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500 bg-white"
+      />
+      <button
+        type="button"
+        onClick={() => {
+          const input = document.getElementById('externalImageUrlInput') as HTMLInputElement;
+          const url = input?.value.trim();
+          if (url) {
+            const existingImages = productForm.images || (productForm.image ? [productForm.image] : []);
+            if (!existingImages.includes(url)) {
+              const updated = [...existingImages, url];
+              setProductForm(prev => ({
+                ...prev,
+                images: updated,
+                image: prev.image || url
+              }));
+            }
+            input.value = '';
+          }
+        }}
+        className="px-3 py-2 bg-rose-600 text-white text-xs font-bold rounded-xl hover:bg-rose-700 whitespace-nowrap"
+      >
+        Add URL
+      </button>
+    </div>
+  </div>
 
-                  <div>
-                    <label className="block text-[11px] font-semibold text-charcoal mb-1">
-                      1. Upload Local Image/Video File (from Device)
-                    </label>
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      accept="image/*,video/*"
-                      onChange={handleFileUpload}
-                      className="text-xs file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-rose-100 file:text-rose-700 hover:file:bg-rose-200"
-                    />
-                  </div>
+  {/* Display Thumbnails Preview & Delete Option */}
+  {((productForm.images && productForm.images.length > 0) || productForm.image) && (
+    <div>
+      <p className="text-[11px] font-semibold text-charcoal mb-1.5">Uploaded Gallery Preview:</p>
+      <div className="flex flex-wrap gap-2">
+        {(productForm.images && productForm.images.length > 0 ? productForm.images : [productForm.image]).map((imgSrc: string, idx: number) => (
+          <div key={idx} className="relative group w-16 h-16 rounded-xl border border-pink-200 overflow-hidden bg-white">
+            <img src={imgSrc} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
+            <button
+              type="button"
+              onClick={() => {
+                const currentImages = productForm.images || [productForm.image];
+                const updated = currentImages.filter((_: any, i: number) => i !== idx);
+                setProductForm(prev => ({
+                  ...prev,
+                  images: updated,
+                  image: updated[0] || ''
+                }));
+              }}
+              className="absolute top-0.5 right-0.5 bg-rose-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] font-bold opacity-80 hover:opacity-100"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
 
-                  <div>
-                    <label className="block text-[11px] font-semibold text-charcoal mb-1">
-                      2. OR External Image URL
-                    </label>
-                    <input
-                      type="text"
-                      value={productForm.imageUrl}
-                      onChange={e => setProductForm(prev => ({ ...prev, imageUrl: e.target.value }))}
-                      className="w-full px-3 py-1.5 text-xs border border-pink-200 rounded-xl outline-none bg-white"
-                      placeholder="https://example.com/photo.jpg"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-semibold text-charcoal mb-1">
-                      Video URL (Optional: YouTube embed or MP4)
-                    </label>
-                    <input
-                      type="text"
-                      value={productForm.videoUrl}
-                      onChange={e => setProductForm(prev => ({ ...prev, videoUrl: e.target.value }))}
-                      className="w-full px-3 py-1.5 text-xs border border-pink-200 rounded-xl outline-none bg-white"
-                      placeholder="https://www.youtube.com/embed/..."
-                    />
-                  </div>
-
-                  {(productForm.uploadedImage || productForm.imageUrl) && (
-                    <div className="mt-2 flex items-center gap-2">
-                      <span className="text-[11px] text-gray-500 font-medium">Preview:</span>
-                      <div className="w-12 h-12 rounded-lg relative overflow-hidden bg-white border border-pink-200">
-                        <img
-                          src={productForm.uploadedImage || productForm.imageUrl}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
+  {/* Video URL */}
+  <div>
+    <label className="block text-[11px] font-semibold text-charcoal mb-1">Video URL (Optional: YouTube embed or MP4)</label>
+    <input
+      type="text"
+      value={productForm.videoUrl || ''}
+      onChange={(e) => setProductForm(prev => ({ ...prev, videoUrl: e.target.value }))}
+      placeholder="https://www.youtube.com/embed/..."
+      className="w-full px-3 py-2 text-xs border border-pink-100 rounded-xl outline-none focus:border-rose-500 bg-white"
+    />
+  </div>
+</div>
 
                 <div>
                   <label className="block text-xs font-bold text-charcoal mb-1">Description</label>
