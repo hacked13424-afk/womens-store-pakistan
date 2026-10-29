@@ -1282,7 +1282,7 @@ export default function AdminPage() {
           e.preventDefault();
           const val = (e.target as HTMLInputElement).value.trim();
           if (val) {
-            const currentColors = productForm.colors || [];
+           const currentColors = (productForm as any).colors || [];
             if (!currentColors.includes(val)) {
               setProductForm(prev => ({ ...prev, colors: [...currentColors, val] }));
             }
@@ -1297,7 +1297,7 @@ export default function AdminPage() {
         const input = document.getElementById('manualColorInput') as HTMLInputElement;
         const val = input?.value.trim();
         if (val) {
-          const currentColors = productForm.colors || [];
+         const currentColors = (productForm as any).colors || [];
           if (!currentColors.includes(val)) {
             setProductForm(prev => ({ ...prev, colors: [...currentColors, val] }));
           }
@@ -1312,7 +1312,7 @@ export default function AdminPage() {
   
   {/* Added Colors Badges List */}
   <div className="flex flex-wrap gap-1.5 mb-3">
-    {(productForm.colors || []).map((color: string, idx: number) => (
+   {((productForm as any).colors || []).map((color: string, idx: number) => (
       <span key={idx} className="inline-flex items-center gap-1 px-2.5 py-1 bg-pink-50 text-rose-700 text-xs font-semibold rounded-lg border border-pink-200">
         {color}
         <button
@@ -1320,7 +1320,7 @@ export default function AdminPage() {
           onClick={() => {
             setProductForm(prev => ({
               ...prev,
-              colors: (prev.colors || []).filter((_: any, i: number) => i !== idx)
+             colors: ((prev as any).colors || []).filter((_: any, i: number) => i !== idx)
             }));
           }}
           className="text-rose-400 hover:text-rose-700 font-bold ml-1"
@@ -1350,11 +1350,11 @@ export default function AdminPage() {
             const url = URL.createObjectURL(file);
             newImageUrls.push(url);
           });
-          const existingImages = productForm.images || (productForm.image ? [productForm.image] : []);
+          const existingImages = (productForm as any).images || ((productForm as any).image ? [(productForm as any).image] : []);
           setProductForm(prev => ({
             ...prev,
             images: [...existingImages, ...newImageUrls],
-            image: existingImages.length === 0 && newImageUrls.length > 0 ? newImageUrls[0] : prev.image
+            image: existingImages.length === 0 && newImageUrls.length > 0 ? newImageUrls[0] : (productForm as any).image
           }));
         }
       }}
@@ -1378,13 +1378,13 @@ export default function AdminPage() {
           const input = document.getElementById('externalImageUrlInput') as HTMLInputElement;
           const url = input?.value.trim();
           if (url) {
-            const existingImages = productForm.images || (productForm.image ? [productForm.image] : []);
+            const existingImages = (productForm as any).images || ((productForm as any).image ? [(productForm as any).image] : []);
             if (!existingImages.includes(url)) {
               const updated = [...existingImages, url];
               setProductForm(prev => ({
                 ...prev,
                 images: updated,
-                image: prev.image || url
+               image: (prev as any).image || url
               }));
             }
             input.value = '';
@@ -1398,17 +1398,17 @@ export default function AdminPage() {
   </div>
 
   {/* Display Thumbnails Preview & Delete Option */}
-  {((productForm.images && productForm.images.length > 0) || productForm.image) && (
+  {(((productForm as any).images && (productForm as any).images.length > 0) || (productForm as any).image) && (
     <div>
       <p className="text-[11px] font-semibold text-charcoal mb-1.5">Uploaded Gallery Preview:</p>
       <div className="flex flex-wrap gap-2">
-        {(productForm.images && productForm.images.length > 0 ? productForm.images : [productForm.image]).map((imgSrc: string, idx: number) => (
+        {(((productForm as any).images && (productForm as any).images.length > 0) ? (productForm as any).images : [(productForm as any).image]).map((imgSrc: string, idx: number) => (
           <div key={idx} className="relative group w-16 h-16 rounded-xl border border-pink-200 overflow-hidden bg-white">
             <img src={imgSrc} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
             <button
               type="button"
               onClick={() => {
-                const currentImages = productForm.images || [productForm.image];
+                const currentImages = (productForm as any).images || [(productForm as any).image];
                 const updated = currentImages.filter((_: any, i: number) => i !== idx);
                 setProductForm(prev => ({
                   ...prev,
